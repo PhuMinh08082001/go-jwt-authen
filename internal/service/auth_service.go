@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"github.com/PhuMinh08082001/go-jwt-authen/common"
+	"github.com/PhuMinh08082001/go-jwt-authen/common/constants"
 	"github.com/PhuMinh08082001/go-jwt-authen/config"
 	"github.com/PhuMinh08082001/go-jwt-authen/internal/middleware"
 	"github.com/PhuMinh08082001/go-jwt-authen/internal/repository"
@@ -171,8 +172,8 @@ func (service *AuthService) RefreshToken(ctx *gin.Context) {
 		}
 
 		tokens := map[string]string{
-			"access_token":  ts.AccessToken,
-			"refresh_token": ts.RefreshToken,
+			constants.ACCESS_TOKEN:  ts.AccessToken,
+			constants.REFRESH_TOKEN: ts.RefreshToken,
 		}
 		ctx.JSON(http.StatusCreated, tokens)
 	} else {
@@ -205,10 +206,10 @@ func CreateToken(username string) (*TokenDetails, error) {
 		return nil, err
 	}
 	atClaims := jwt.MapClaims{}
-	atClaims["authorized"] = true
-	atClaims["access_uuid"] = td.AccessUuid
-	atClaims["user_name"] = username
-	atClaims["exp"] = td.AtExpires
+	atClaims[constants.AUTHORIZED] = true
+	atClaims[constants.ACCESS_UUID] = td.AccessUuid
+	atClaims[constants.USER_NAME] = username
+	atClaims[constants.EXPIRED] = td.AtExpires
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
 
 	td.AccessToken, err = at.SignedString([]byte(os.Getenv("ACCESS_SECRET")))
