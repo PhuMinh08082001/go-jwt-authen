@@ -27,6 +27,8 @@ func InitAccountRoute(params RouteParams) {
 	indexRoute := route.Group("/")
 	{
 		indexRoute.POST("/login", authController.Login)
+		indexRoute.POST("/logout", authController.Logout)
+		indexRoute.POST("/refresh-token", authController.RefreshToken)
 	}
 
 	accountRoute := route.Group("/hello")

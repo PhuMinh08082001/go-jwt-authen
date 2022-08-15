@@ -2,11 +2,11 @@ package middleware
 
 import (
 	"fmt"
+	"github.com/PhuMinh08082001/go-jwt-authen/common"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v7"
 	"github.com/golang-jwt/jwt"
 	_ "github.com/labstack/echo/v4/middleware"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -27,16 +27,11 @@ type AccessDetails struct {
 	UserName   string
 }
 
-type ErrorResponse struct {
-	ErrorCode string
-	Code      int
-}
-
 func (middleware *Middleware) JWT(ctx *gin.Context) {
 	tokenAuth, err := ExtractTokenMetadata(ctx.Request)
 
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusUnauthorized, ErrorResponse{
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, common.ErrorResponse{
 			ErrorCode: http.StatusText(http.StatusUnauthorized),
 			Code:      http.StatusUnauthorized,
 		})
@@ -44,13 +39,12 @@ func (middleware *Middleware) JWT(ctx *gin.Context) {
 	}
 	_, err = FetchAuth(tokenAuth, middleware.Client)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusUnauthorized, ErrorResponse{
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, common.ErrorResponse{
 			ErrorCode: http.StatusText(http.StatusUnauthorized),
 			Code:      http.StatusUnauthorized,
 		})
 		return
 	}
-	log.Println(tokenAuth.UserName)
 	ctx.Next()
 }
 

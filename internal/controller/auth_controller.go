@@ -29,3 +29,11 @@ func NewAuthController(service *service.AuthService) *AuthController {
 func (controller *AuthController) Login(ctx *gin.Context) {
 	controller.authService.Login(ctx)
 }
+
+func (controller *AuthController) Logout(ctx *gin.Context) {
+	controller.authService.Logout(ctx)
+}
+
+func (controller *AuthController) RefreshToken(ctx *gin.Context) {
+	controller.authService.RefreshToken(ctx)
+}

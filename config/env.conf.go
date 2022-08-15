@@ -23,7 +23,9 @@ type (
 	}
 
 	Server struct {
-		Address string `mapstructure:"address"`
+		Address       string `mapstructure:"address"`
+		AccessSecret  string `mapstructure:"access-secret"`
+		RefreshSecret string `mapstructure:"refresh-secret"`
 	}
 
 	Database struct {
