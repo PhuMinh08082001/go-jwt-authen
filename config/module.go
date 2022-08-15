@@ -2,4 +2,4 @@ package config
 
 import "go.uber.org/fx"
 
-var Module = fx.Provide(NewConfig, NewGin)
+var Module = fx.Provide(NewConfig, NewGin, InitRedis)

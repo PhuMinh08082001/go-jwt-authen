@@ -7,6 +7,7 @@ import (
 	"github.com/PhuMinh08082001/go-jwt-authen/config"
 	"github.com/PhuMinh08082001/go-jwt-authen/internal/controller"
 	"github.com/PhuMinh08082001/go-jwt-authen/internal/dal"
+	"github.com/PhuMinh08082001/go-jwt-authen/internal/middleware"
 	"github.com/PhuMinh08082001/go-jwt-authen/internal/repository"
 	"github.com/PhuMinh08082001/go-jwt-authen/internal/routes"
 	"github.com/PhuMinh08082001/go-jwt-authen/internal/server"
@@ -32,6 +33,7 @@ func inject() fx.Option {
 		config.Module,
 		dal.Module,
 		controller.Module,
+		middleware.Module,
 		service.Module,
 		repository.Module,
 		server.Module,

@@ -2,7 +2,10 @@ package config
 
 import (
 	"fmt"
+	"github.com/go-redis/redis/v7"
 	"github.com/spf13/viper"
+	"log"
+	"os"
 )
 
 var (
@@ -60,4 +63,23 @@ func InitConfig() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+}
+
+func InitRedis() *redis.Client {
+
+	dsn := os.Getenv("REDIS_DSN")
+	if len(dsn) == 0 {
+		dsn = "localhost:6379"
+	}
+
+	log.Printf("Redis listening on PORT: %s", dsn)
+
+	client := redis.NewClient(&redis.Options{
+		Addr: dsn, //redis port
+	})
+	_, err := client.Ping().Result()
+	if err != nil {
+		panic(err)
+	}
+	return client
 }
